@@ -1,5 +1,9 @@
-const UserService = require('./users.service');
+const authService = require('./auth.service');
+const userService = require('./users.service');
+const tokenService = require('./token.service')
 
 module.exports = {
-    UserService,
+  authService,
+  userService,
+  tokenService,
 }
