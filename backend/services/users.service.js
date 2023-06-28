@@ -1,10 +1,13 @@
 const { User } = require('../models');
 const bcrypt = require('bcryptjs');
+const ApiError = require('../utils/ApiError');
+const httpStatus = require('http-status');
 
 const create = async (body) => {
     if (await User.isEmailTaken(body.email)) throw new ApiError(httpStatus.OK, "Email already taken");
     const hashedPassword = await bcrypt.hash(body.password, 10);
-    const user = await User.create({ ...body, password: hashedPassword });
+    const loweredUserName = body.username.toLowerCase();
+    const user = await User.create({ ...body, username: loweredUserName, password: hashedPassword });
     return user;
 }
 

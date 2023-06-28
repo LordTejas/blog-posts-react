@@ -9,7 +9,7 @@ const loginUserWithEmailAndPassword = async (email, password) => {
 };
 
 const loginUserWithUserNameAndPassword = async (username, password) => {
-  const user = await UserService.findByUsername(username);
+  const user = await UserService.findByUsername(username.toLowerCase());
   if (!user || !await user.isPasswordMatch(password)) throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect username or password");
   return user;
 };
