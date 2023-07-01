@@ -3,9 +3,11 @@ const compression = require("compression");
 const cors = require("cors");
 const httpStatus = require("http-status");
 const routes = require("./routes");
-// const { errorHandler } = require("./middlewares/error");
+const { errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/ApiError");
 const helmet = require("helmet");
+const passport = require("passport");
+const { jwtStrategy } = require("./config/passport");
 
 const app = express();
 
@@ -25,6 +27,8 @@ app.use(compression());
 app.use(cors());
 app.options("*", cors());
 
+app.use(passport.initialize());
+passport.use("jwt" , jwtStrategy);
 
 app.use("/", routes);
 
@@ -33,6 +37,6 @@ app.use((req, res, next) => {
 });
 
 // handle error
-// app.use(errorHandler);
+app.use(errorHandler);
 
 module.exports = app;
